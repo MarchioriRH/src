@@ -36,10 +36,8 @@ public class Main {
         nodeII.setLeft(nodeAAAAA);
 
         
-        System.out.print("Print in order : [ ");
-        root.printInOrder();
-        System.out.println("]");
-
+        System.out.print(root.toString());
+        
         System.out.println(root.wordsWithNVocals(2));
     } 
 }

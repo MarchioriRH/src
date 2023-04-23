@@ -8,6 +8,7 @@ public class Tree {
 	private Integer value, res;
 	private Tree left;
 	private Tree right;
+	private Boolean deleted;
 
 	public Tree (){
 		super();
@@ -19,10 +20,15 @@ public class Tree {
 		this. res = 0;
 		this.left = null;
 		this.right = null;
+		this.deleted = false;
 	}	
 	
 	public Integer getValue() {  // Complejidad: O(1)
 		return value;
+	}
+
+	public void setValue(Integer i) {  // Complejidad: O(1)
+		this.value = i;
 	}
 
 	public Integer getRoot() {  // Complejidad: O(1)
@@ -149,7 +155,7 @@ public class Tree {
 		return 1 + greatestHeight; 
 	}
 
-	public Boolean delete(Integer elem){
+	/* public Boolean delete(Integer elem){
 		Boolean deleted = false;
 		return delete(this, elem, deleted);
 	}
@@ -185,7 +191,7 @@ public class Tree {
 					}				
 		}	
 		return deleted;
-	}
+	} */
 
 	private Tree findSuccesor(Tree t){ // Complejidad: O(1)
 		if (t.left == null)
@@ -206,6 +212,48 @@ public class Tree {
 				return findPredecessor(t, aux.right);	
 		}	
 	}
+
+	public boolean delete(Integer key){ 
+		deleteRec(this, key);
+		return deleted;		
+	}
+ 
+    /* A recursive function to
+      delete an existing key in BST
+     */
+    private Tree deleteRec(Tree t, Integer key){
+        /* Base Case: If the tree is empty */
+        if (t == null)
+            return t;
+ 
+        /* Otherwise, recur down the tree */
+        if (key.compareTo(t.getValue()) < 0)
+            t.left = deleteRec(t.left, key);
+        else if (key.compareTo(t.getValue()) > 0)
+            t.right = deleteRec(t.right, key);
+ 
+        // if key is same as root's
+        // key, then This is the
+        // t to be deleted
+        else {
+			deleted = true;
+            // t with only one child or no child
+            if (t.left == null)
+                return t.right;
+            else if (t.right == null)
+                return t.left;
+ 
+            // t with two children: Get the inorder
+            // successor (smallest in the right subtree)
+            t.setValue(t.right.treeMostLeft());
+ 
+            // Delete the inorder successor
+            t.right = deleteRec(t.right, t.getValue());			
+        } 
+        return t;
+    }
+
+	
 
 	public Integer treeMostRight(){	// O(h), donde h es la altura del arbol.
 		Tree aux = treeMostRightRecursive(this);
@@ -304,5 +352,28 @@ public class Tree {
             }
         }
     }
+
+	private StringBuilder toString(StringBuilder prefix, boolean isTail, StringBuilder sb) {
+		Integer value = 0;
+		if(this.right!=null) {
+			this.right.toString(new StringBuilder().append(prefix).append(isTail ? "│   " : "    "), false, sb);
+		}
+		if (this.getValue() != null){
+			value = this.getValue();
+			sb.append(prefix).append(isTail ? "└── " : "┌── ").append(value.toString()).append("\n");
+		}
+		else 
+			sb.append(prefix).append(isTail ? "└── " : "┌── ").append(value).append("\n");
+		if(this.left!=null) {
+			this.left.toString(new StringBuilder().append(prefix).append(isTail ? "    " : "│   "), true, sb);
+		}
+		return sb;
+	}
+	
+	@Override
+	public String toString() {
+		return this.toString(new StringBuilder(), true, new StringBuilder()).toString();
+	}
+
 
 }

@@ -97,7 +97,27 @@ public class Tree {
 		}
 	} 
 
+	private StringBuilder toString(StringBuilder prefix, boolean isTail, StringBuilder sb) {
+		String value = "";
+		if(this.right!=null) {
+			this.right.toString(new StringBuilder().append(prefix).append(isTail ? "│   " : "    "), false, sb);
+		}
+		if (this.getValue() != null){
+			value = this.getValue();
+			sb.append(prefix).append(isTail ? "└── " : "┌── ").append(value.toString()).append("\n");
+		}
+		else 
+			sb.append(prefix).append(isTail ? "└── " : "┌── ").append(value).append("\n");
+		if(this.left!=null) {
+			this.left.toString(new StringBuilder().append(prefix).append(isTail ? "    " : "│   "), true, sb);
+		}
+		return sb;
+	}
 	
+	@Override
+	public String toString() {
+		return this.toString(new StringBuilder(), true, new StringBuilder()).toString();
+	}
 
 	
 

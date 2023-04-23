@@ -71,6 +71,7 @@ public class Main {
         System.out.println("Elementos en el nivel 7: " + tree.getElemAtLevel(7));
         System.out.println();
         try (Scanner scanner = new Scanner(System.in)){
+            System.out.println(tree.toString());
             System.out.print("Ingrese el valor minimo: ");
             Integer data = scanner.nextInt();
             System.out.println("Los valores mayores al ingresado en el ABB son: " + tree.getSuperiorList(data));
@@ -82,7 +83,9 @@ public class Main {
             else
                 System.out.println("No se pudo eliminar el elemento.");
         
-            System.out.println();
+           System.out.println(tree.toString());
+
+           /*  System.out.println();
             System.out.println("Elementos en el nivel 0: " + tree.getElemAtLevel(0));
             System.out.println("Elementos en el nivel 1: " + tree.getElemAtLevel(1));
             System.out.println("Elementos en el nivel 2: " + tree.getElemAtLevel(2));
@@ -91,7 +94,7 @@ public class Main {
             System.out.println("Elementos en el nivel 5: " + tree.getElemAtLevel(5));
             System.out.println("Elementos en el nivel 6: " + tree.getElemAtLevel(6));
             System.out.println("Elementos en el nivel 7: " + tree.getElemAtLevel(7));
-            System.out.println();
+            System.out.println(); */
             
         }
 
