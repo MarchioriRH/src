@@ -193,6 +193,7 @@ public class Tree {
 		return deleted;
 	} */
 
+	// Metodo que devuelve el sucesor inmediato de un arbol cuando tiene un solo hijo.
 	private Tree findSuccesor(Tree t){ // Complejidad: O(1)
 		if (t.left == null)
 			return t.right;
@@ -200,6 +201,7 @@ public class Tree {
 			return t.left;
 	}
 
+	// Metodo que devuelve el predecesor de un sub arbol.
 	private Tree findPredecessor(Tree t, Tree aux){	// Complejidad: O(h) donde h es la altura del arbol.
 		if (aux == null)
 			return null;
@@ -218,36 +220,35 @@ public class Tree {
 		return deleted;		
 	}
  
-    /* A recursive function to
-      delete an existing key in BST
-     */
+    // Funcion recursiva para eliminar un elemento de un ABB
     private Tree deleteRec(Tree t, Integer key){
-        /* Base Case: If the tree is empty */
+        // Caso base: el arbol esta vacio.
         if (t == null)
             return t;
  
-        /* Otherwise, recur down the tree */
+        // Si el ABB no esta vacio, se recorre dependiendo el valor buscado.
         if (key.compareTo(t.getValue()) < 0)
             t.left = deleteRec(t.left, key);
         else if (key.compareTo(t.getValue()) > 0)
             t.right = deleteRec(t.right, key);
  
-        // if key is same as root's
-        // key, then This is the
-        // t to be deleted
+        // Si el valor buscado es el mismo que el valor de la raiz,
+        // la raiz es la que se debe eliminar.
         else {
+			// Si se ejcuta esta seccion del codigo, quiere decir que se encontro
+			// el valor en el ABB, deleted = true.
 			deleted = true;
-            // t with only one child or no child
+            // Arbol con un solo hijo
             if (t.left == null)
                 return t.right;
             else if (t.right == null)
                 return t.left;
  
-            // t with two children: Get the inorder
-            // successor (smallest in the right subtree)
+            // Arbol con dos hijos: se obtiene el valor del sub arbol izquierdo
+            // del nodo derecho.
             t.setValue(t.right.treeMostLeft());
  
-            // Delete the inorder successor
+            // Se elimina el sub arbol izquierdo del nodo derecho.
             t.right = deleteRec(t.right, t.getValue());			
         } 
         return t;
@@ -294,65 +295,31 @@ public class Tree {
 		getSuperiorListRec(t.left, elem, list);
 	}
 
-	/* public List<Integer> getLongestBranch(){
-		return getLongestBranch(this);
-	} */
-
-	/* private List<Integer> getLongestBranch(Tree t){		
-		
-		if(t == null){
-			List<Integer> output = new ArrayList<>();
-			return output;
-		}
-				
-		List<Integer> rightBranch = getLongestBranch(t.right);
-				
-		List<Integer> leftBranch = getLongestBranch(t.left);
-		
-		if(rightBranch.size() < leftBranch.size()){
-			leftBranch.add(t.getValue());
-		} else {
-			rightBranch.add(t.getValue());
-		}
-				
-		return (leftBranch.size() >
-				rightBranch.size() ? leftBranch : rightBranch);
-	} */
 
 	public List<Integer> getLongestBranch() {
         List<Integer> branch = new ArrayList<>();
-        getLongestBranchRecursive(this, branch);
+        branch = findLongestBranch(this);
         return branch;
     }
  
-    private void getLongestBranchRecursive(Tree current, List<Integer> branch) {
-        if (current == null) {
-            return;
-        }
- 
-        branch.add(current.value);
- 
-        if (current.left == null && current.right == null) {
-            return;
-        }
- 
-        if (current.left == null) {
-            getLongestBranchRecursive(current.right, branch);
-        } else if (current.right == null) {
-            getLongestBranchRecursive(current.left, branch);
-        } else {
-            List<Integer> leftBranch = new ArrayList<>();
-            List<Integer> rightBranch = new ArrayList<>();
-            getLongestBranchRecursive(current.right, rightBranch);
-            getLongestBranchRecursive(current.left, leftBranch);
-            if (leftBranch.size() > rightBranch.size()) {
-                branch.addAll(leftBranch);
-            } else {
-                branch.addAll(rightBranch);
-            }
-        }
-    }
 
+	private List<Integer> findLongestBranch(Tree t) {
+		if (t == null) {
+			return new ArrayList<>();
+		}
+	
+		List<Integer> leftBranch = findLongestBranch(t.left);
+		List<Integer> rightBranch = findLongestBranch(t.right);
+	
+		if (leftBranch.size() > rightBranch.size()) {
+			leftBranch.add(0, t.getValue());
+			return leftBranch;
+		} else {
+			rightBranch.add(0, t.getValue());
+			return rightBranch;
+		}
+	}
+   
 	private StringBuilder toString(StringBuilder prefix, boolean isTail, StringBuilder sb) {
 		Integer value = 0;
 		if(this.right!=null) {
