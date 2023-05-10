@@ -1,25 +1,26 @@
 package TP3.Ej_1;
 
 import java.util.*;
-import java.util.Map.Entry;
 
 public class GrafoDirigido<T> implements Grafo<T> {
-	private Map<Integer, Set<Arco<T>>> vertices;
+	private Map<Integer, Set<Arco<T>>> grafo;
 	private Map<Integer, Integer> state;
 	private Map<Integer, int[]> tiempos;
 	private Queue<Integer> visitados;
 	private int cantArchs;
+	private Boolean isCyclic;
 
 	public GrafoDirigido(){
-		this.vertices = new HashMap<>();
+		this.grafo = new HashMap<>();
 		this.state = new HashMap<>();
 		this.tiempos = new HashMap<>();
 		this.visitados = new LinkedList<>();
+		this.isCyclic = false;
 	}
 
 	@Override
     public void agregarVertice(int vertice) {
-        vertices.putIfAbsent(vertice, new HashSet<>());
+        grafo.putIfAbsent(vertice, new HashSet<>());
     }
 
 
@@ -27,33 +28,31 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public void agregarArco(int verticeId1, int verticeId2, T etiqueta) {
         Arco<T> a = new Arco<T>(verticeId1, verticeId2, etiqueta);
 		Boolean found = false;
-		for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet()){
+		for (Map.Entry<Integer, Set<Arco<T>>> e : grafo.entrySet()){
 			for (Arco<T> aux : e.getValue())
 				if (aux.getVerticeOrigen() == a.getVerticeOrigen() && aux.getVerticeDestino() == a.getVerticeDestino() 
 					&& aux.getEtiqueta() == a.getEtiqueta())
 					found = true;
 		}
 		if (!found){
-			vertices.get(verticeId1).add(a);
+			grafo.get(verticeId1).add(a);
 			cantArchs++;
 		}
     }
 
 	@Override
 	public void borrarArco(int verticeId1, int verticeId2) {
-		if (vertices.containsKey(verticeId1)){
+		if (grafo.containsKey(verticeId1)){
 			Arco<T> a = this.obtenerArco(verticeId1, verticeId2);
-			for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet()){
-				e.getValue().remove(a);
-				cantArchs--;
-			}
+			grafo.get(verticeId1).remove(a);
+			cantArchs--;
         } 
     }
 
 	@Override
 	public Arco<T> obtenerArco(int verticeId1, int verticeId2){
-		if (vertices.containsKey(verticeId1)){
-			Set<Arco<T>> adyacentes = vertices.get(verticeId1);
+		if (grafo.containsKey(verticeId1)){
+			Set<Arco<T>> adyacentes = grafo.get(verticeId1);
 			for (Arco<T> a : adyacentes){
 				if (a.getVerticeOrigen() == verticeId1 && a.getVerticeDestino() == verticeId2){
 					Arco<T> aux = a;
@@ -65,26 +64,34 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
     	
 	@Override
-	public void borrarVertice(int verticeId) {
-		if (vertices.containsKey(verticeId)){
-			vertices.remove(verticeId);
-			for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet())
+	public void borrarVertice(int verticeId) {					
+		if (grafo.containsKey(verticeId)){
+			cantArchs -= grafo.get(verticeId).size();
+			grafo.remove(verticeId);
+			for (Map.Entry<Integer, Set<Arco<T>>> e : grafo.entrySet()){
+				//Set<Arco<T>> arcosAux = e.getValue();
+				ArrayList<Arco<T>> arcosList = new ArrayList<>();
 				for (Arco<T> a : e.getValue()){
-					if (a.getVerticeDestino() == verticeId)
-						this.borrarArco(e.getKey(), verticeId);
+					arcosList.add(a);
 				}
+				for(Arco<T> a : arcosList){
+					if (a.getVerticeDestino() == verticeId)
+							this.borrarArco(a.getVerticeOrigen(), verticeId);
+				}
+				this.isCyclic = false;			
+			}
 		}
 	}	
 
 	@Override
 	public boolean contieneVertice(int verticeId) {
-		return this.vertices.containsKey(verticeId);
+		return this.grafo.containsKey(verticeId);
 	}
 
 	@Override
 	public boolean existeArco(int verticeId1, int verticeId2) {
-		if (vertices.containsKey(verticeId1)){
-			Set<Arco<T>> adyacentes = vertices.get(verticeId1);
+		if (grafo.containsKey(verticeId1)){
+			Set<Arco<T>> adyacentes = grafo.get(verticeId1);
 			for (Arco<T> a : adyacentes){
 				if (a.getVerticeOrigen() == verticeId1 && a.getVerticeDestino() == verticeId2)
 					return true;
@@ -95,7 +102,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	@Override
 	public int cantidadVertices() {
-		return this.vertices.size();
+		return this.grafo.size();
 	}
 
 	@Override
@@ -103,7 +110,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return cantArchs; //O(1)
 		
 		/* int res = 0; // O(a) donde a = cantidad de arcos
-		for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet())		
+		for (Map.Entry<Integer, Set<Arco<T>>> e : grafo.entrySet())		
 				res += e.getValue().size();
 		return res; */
 	}	
@@ -112,7 +119,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	public void DFS(){
 		int time = 0;
 		state.clear();
-		for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet()){
+		for (Map.Entry<Integer, Set<Arco<T>>> e : grafo.entrySet()){
 			if (state.getOrDefault(e.getKey(), 0) == 0) // Si el vertice esta, devuelve el valor, sino 0
 				time = DFS_Visit(e.getKey(), time);
 		}
@@ -125,7 +132,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		tiempos.put(origen, times);
 		state.put(origen, 1); // state: 0 = no visitado, 1 = visitado y 2 = finalizado
 
-		Set<Arco<T>> adyacentes = vertices.get(origen);
+		Set<Arco<T>> adyacentes = grafo.get(origen);
 
 		if (adyacentes != null){
 			for (Arco<T> a : adyacentes){
@@ -133,7 +140,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 					time = DFS_Visit(a.getVerticeDestino(), time);
 				}
 				else if (state.get(a.getVerticeDestino()) == 1)
-					System.out.println("Hay un ciclo en el grafo.");
+					this.isCyclic = true;
 			}
 		}
 		time += 1;
@@ -141,6 +148,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		tiempos.put(origen, times);
 		state.put(origen, 2);
 		return time;
+	}
+
+	@Override
+	public Boolean hasCycles(){
+		if (!isCyclic){
+			this.DFS();
+			return this.isCyclic;
+		}
+		return this.isCyclic;
 	}
 
 	public void printDFSTimes(){
@@ -155,7 +171,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public void BFS(){
 		state.clear();
-		Set<Integer> e = vertices.keySet();
+		Set<Integer> e = grafo.keySet();
 		for (Integer i : e)
 			if (state.getOrDefault(i, 0) == 0) // Si el vertice esta, devuelve el valor, sino 0
 				BFS(i);						 // 0 = no visitado, 1 = visitado.
@@ -167,7 +183,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		visitados.offer(v);
 		while (!visitados.isEmpty()){
 			System.out.println(visitados.peek());
-			Set<Arco<T>> adyacentes = vertices.get(visitados.poll()); // Se saca el valor de la fila y se toma el set de arcos
+			Set<Arco<T>> adyacentes = grafo.get(visitados.poll()); // Se saca el valor de la fila y se toma el set de arcos
 			for (Arco<T> a : adyacentes){							  // de ese vertice para visitarlos.
 				if (state.getOrDefault(a.getVerticeDestino(), 0) == 0){  // Si el vertice no fue visitado.
 					state.put(a.getVerticeDestino(), 1);	// Se marca el vertice como visitado.
@@ -181,19 +197,19 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Integer> obtenerVertices() {
-		ArrayList<Integer> verticesList = new ArrayList<>();
-		for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet()){
-			verticesList.add(e.getKey());
+		ArrayList<Integer> grafoList = new ArrayList<>();
+		for (Map.Entry<Integer, Set<Arco<T>>> e : grafo.entrySet()){
+			grafoList.add(e.getKey());
 		}
-		Iterator<Integer> itVertices = verticesList.iterator();
-		return itVertices;
+		Iterator<Integer> itgrafo = grafoList.iterator();
+		return itgrafo;
 	}
 
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-		if (vertices.containsKey(verticeId)){
+		if (grafo.containsKey(verticeId)){
 			ArrayList<Integer> adyacentList = new ArrayList<>();
-			for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet()){
+			for (Map.Entry<Integer, Set<Arco<T>>> e : grafo.entrySet()){
 				if (e.getKey() == verticeId)
 					for (Arco<T> a : e.getValue())
 						adyacentList.add(a.getVerticeDestino());
@@ -206,8 +222,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos() {
-		if (!vertices.isEmpty()){
-			for (Map.Entry<Integer, Set<Arco<T>>> e : vertices.entrySet())
+		if (!grafo.isEmpty()){
+			for (Map.Entry<Integer, Set<Arco<T>>> e : grafo.entrySet())
 				return e.getValue().iterator();
 		}
 		return null;
@@ -215,8 +231,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
 	@Override
 	public Iterator<Arco<T>> obtenerArcos(int verticeId) {
-		if (vertices.containsKey(verticeId)){			
-			Set<Arco<T>> itArcos = vertices.get(verticeId);
+		if (grafo.containsKey(verticeId)){			
+			Set<Arco<T>> itArcos = grafo.get(verticeId);
 			return itArcos.iterator();
 		}
 		return null;
@@ -225,7 +241,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	@Override
 	public String toString(){
 		String res = "";
-		for (Map.Entry<Integer, Set<Arco<T>>> a : vertices.entrySet())
+		for (Map.Entry<Integer, Set<Arco<T>>> a : grafo.entrySet())
 			res += a.toString() + "\n";		
 		return res;
 	}

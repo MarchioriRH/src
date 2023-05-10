@@ -51,5 +51,8 @@ public interface Grafo<T> {
 	public void BFS();
 
     public void printDFSTimes();
+
+	// Verifica sy hay ciclos en el grafo.
+    public Boolean hasCycles();
 	
 }

@@ -14,9 +14,9 @@ public class GrafoNoDirigido<T> extends GrafoDirigido<T> {
 		super.borrarArco(verticeId2, verticeId1);
 	}
 
-    @Override
+    /* @Override
     public int cantidadVertices(){
         return super.cantidadVertices() / 2;
-    }
+    } */
 
 }

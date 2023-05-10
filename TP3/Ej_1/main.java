@@ -24,7 +24,7 @@ public class main <T extends Comparable<? super T>> {
         g1.agregarVertice(8);
 
 
-        g1.agregarArco(1, 3, 3);        
+        g1.agregarArco(1, 4, 3);        
         g1.agregarArco(1, 5, 23);        
         g1.agregarArco(1, 2, 21);
         g1.agregarArco(2, 3, 21);
@@ -44,6 +44,8 @@ public class main <T extends Comparable<? super T>> {
         
         g1.DFS();
         g1.printDFSTimes();
+
+        System.out.println("Tiene ciclos: "+ g1.hasCycles());
 
         //g1.BFS();
         /* Arco<Integer> res = g1.obtenerArco(1,3);
