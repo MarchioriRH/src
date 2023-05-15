@@ -27,7 +27,7 @@ public class Ej_7 <T> {
         int[] padre = new int[grafo.cantidadVertices()];
         Arrays.fill(distancia, Integer.MAX_VALUE);
         Arrays.fill(padre, -1);
-        distancia[esqOrigen] = 0;
+        distancia[esqOrigen-1] = 0;
 		visitados.offer(esqOrigen);
         //camino.add(esqOrigen);
 		while (!visitados.isEmpty()){
@@ -37,12 +37,9 @@ public class Ej_7 <T> {
                 visitados.clear();
                 break;							  
             }
-            if (!visitados.isEmpty())
-                Iterator<Arco<Integer>> itArcos = grafo.obtenerArcos(esqActual);
-            
+            Iterator<Arco<Integer>> itArcos = grafo.obtenerArcos(esqActual);                
 			while (itArcos.hasNext()){
-                Arco<Integer> arco = itArcos.next();
-               
+                Arco<Integer> arco = itArcos.next();               
                 if (distancia[arco.getVerticeDestino()-1] == Integer.MAX_VALUE){  
                     distancia[arco.getVerticeDestino()-1] = distancia[arco.getVerticeDestino()-1] + 1;
                     padre[arco.getVerticeDestino()-1] = esqActual;
