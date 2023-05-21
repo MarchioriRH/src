@@ -18,8 +18,8 @@ public class main {
         set[9] = 6;
 
 
-        Conjunto c = new Conjunto();
-        ArrayList<ArrayList<Integer>> result = c.findSubsets(set,33);
+        FindSubsets c = new FindSubsets();
+        ArrayList<ArrayList<Integer>> result = c.findSubsets(set,15);
 
         for(ArrayList<Integer> array : result)
             System.out.println(array);
