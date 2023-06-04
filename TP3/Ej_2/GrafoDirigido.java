@@ -12,8 +12,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	@Override
-    public void agregarVertice(Vertice<T> vertice) {
-        vertices.putIfAbsent(vertice, new HashSet<>());
+    public void agregarVertice(Vertice<T> v) {
+        vertices.putIfAbsent(v, new HashSet<>());
     }
 
 
