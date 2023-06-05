@@ -1,5 +1,6 @@
 package TP5.Ej_4;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -8,25 +9,23 @@ import TP3.Ej_2.*;
 public class Dijkstra <T> {
     private int[] father;
     private int[] distances;
-    private boolean[] isVisited;
+    private ArrayList<Integer> isVisited;
 
-    public Dijkstra() {
-        
-    }
-
-    private int getMinDistVertex(int[] distances, boolean[] visited) {
+    // Metodo privado para obtener el vertice mas cercano
+    private int getMinDistVertex(int[] distances, ArrayList<Integer> visited) {
         int minDistance = Integer.MAX_VALUE;
         int vertexMinDistance = -1;
-        for (int i = 0; i < distances.length; i++) {
+        for (int i = 0; i < distances.length; i++) {  
             int distance = distances[i];            
-            if (!visited[i] && distance < minDistance) {
-                minDistance = distance;
-                vertexMinDistance = i;
+            if (!visited.contains(i) && distance < minDistance) { // Si el vertice no fue visitado y la distancia registrada es menor que la
+                minDistance = distance;                           // minima distancia,la minima distancia se vuelve la distancia registrada y 
+                vertexMinDistance = i;                            // el vertice a devolver se vuelve el actual
             }
         }        
         return vertexMinDistance;
     }
 
+    // Metodo privado para obtener un vertice del grafo
     private Vertice<Integer> getVertex(Grafo<Integer> grafo, int actualVertex) {
         Iterator<Vertice<Integer>> itVertices = grafo.obtenerVertices();
         while (itVertices.hasNext()){
@@ -37,56 +36,38 @@ public class Dijkstra <T> {
         return null;
     }
 
-    public int[] solve(Grafo<Integer> grafo, Vertice<Integer> v1) {
+    public ArrayList<int[]> solve(Grafo<Integer> grafo, Vertice<Integer> v1) {
         this.father = new int[grafo.cantidadVertices()];
         this.distances = new int[grafo.cantidadVertices()];
-        this.isVisited = new boolean[grafo.cantidadVertices()]; // isVisited será el conjunto de vértices ya considerados
-        Arrays.fill(isVisited, false);
-        int vertex = (int) v1.getKey();
-
-        Iterator<Vertice<Integer>> itVertices = grafo.obtenerVertices(); // Inicialización
-        while (itVertices.hasNext()){
-            Vertice<Integer> data = itVertices.next();                 // La distancia inicial desde el origen al vértice v 
-            distances[(int) data.getKey()-1] = Integer.MAX_VALUE; // se establece en infinito
-            father[(int) data.getKey()-1] = 0;                     // El nodo anterior en el camino óptimo desde el origen
-        }
-        
-        distances[vertex-1] = 0;
-        //isVisited[vertex-1] = true;                       // Distancia desde el origen hasta el origen
+        this.isVisited = new ArrayList<>();             // isVisited será el conjunto de vértices ya considerados
+        ArrayList<int[]> res = new ArrayList<>();       // Inicializacion
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        Arrays.fill(father, -1);
+        int vertex = (int) v1.getKey();                 // Se obtiene el valor de la key del vertice
        
-        while (!isVisited[vertex-1]) { // no es vacío - loop principal
-            //u = vértice en (G.Vértices – S) tal que dist[u] tiene el menor valor
+        distances[vertex-1] = 0;                        // Se setea el valor de la distancia del origen en 0
+       
+        while (isVisited.size() < grafo.cantidadVertices()) { // loop principal
             
-            int actualVertex = getMinDistVertex(distances, isVisited) + 1;
-            isVisited[actualVertex-1] = true;
+            int actualVertex = getMinDistVertex(distances, isVisited) + 1;      // Se obtiene el vertice mas cercano al actual
+            isVisited.add(actualVertex-1);                                      // Se agrega a la lista de vistados
             
-            // for each v en (G.Vértices – S) que sea adyacente a u:
-            //     if (dist[u] + dist_entre(u, v)) < dist[v]) 
-            //     dist[v] = dist[u] + dist_entre(u, v)
-            //     padre[v] = u
-            Vertice<Integer> aux = getVertex(grafo, actualVertex);
-            //Vertice<Integer> aux = new Vertice<>(actualVertex);
-            Iterator<Arco<Integer>> archs = grafo.obtenerArcos(aux);
-            
-            //if (archs != null) {
-                while (archs.hasNext()) {
-                    Arco<Integer> arch = archs.next();
-                    Vertice<Integer> destinyVertex = arch.getVerticeDestino();
-                    int archWeight = arch.getEtiqueta();
-                    
-                    if (!isVisited[(int) destinyVertex.getKey()-1]) {
-                        int totalDistance = distances[actualVertex-1] + archWeight;
-                        
-                        if (totalDistance < distances[destinyVertex.getKey()-1]) {
-                            distances[destinyVertex.getKey()-1] = totalDistance;
-                            father[destinyVertex.getKey()-1] = actualVertex-1;
-                        }
-                    }
+            Vertice<Integer> aux = getVertex(grafo, actualVertex);              
+            Iterator<Arco<Integer>> archs = grafo.obtenerArcos(aux);             // Se obtienen los vertices adyacentes
+            while (archs.hasNext()) {
+                Arco<Integer> arch = archs.next();
+                Vertice<Integer> destinyVertex = arch.getVerticeDestino();
+                int archWeight = arch.getEtiqueta();
+                int totalDistance = distances[actualVertex-1] + archWeight;      // Se calcula la distancia entre el vertice actual y el siguiente
+                
+                if (totalDistance < distances[destinyVertex.getKey()-1]) {      // Si la distancia calculada es menor que la que esta setedada en el
+                    distances[destinyVertex.getKey()-1] = totalDistance;        // arreglo de distancias para ese vertice, se reemplaza por la nueva
+                    father[destinyVertex.getKey()-1] = actualVertex;            // Se agrega al vertice actual como padre del calculado
                 }
-                vertex = vertex+1;
-            //}
-        }
-        return father;
-
+            }
+        } 
+        res.add(distances);
+        res.add(father);      
+        return res;
     }
 }   
