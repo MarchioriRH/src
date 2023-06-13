@@ -6,9 +6,9 @@ import TP3.Ej_2.*;
 
 public class Main {
     public static <T> void main(String[] args) {
-        /* Grafo<Integer> grafo = new GrafoDirigido<>();
+        //Grafo<Integer> grafo = new GrafoNoDirigido<>();
 
-        Vertice<Integer> v1 = new Vertice<>(1);
+        /* Vertice<Integer> v1 = new Vertice<>(1);
         Vertice<Integer> v2 = new Vertice<>(2);
         Vertice<Integer> v3 = new Vertice<>(3);
         Vertice<Integer> v4 = new Vertice<>(4);
@@ -68,12 +68,7 @@ public class Main {
             }
             System.out.println();
         }
-
-        // Vertice<Integer> v10 = new Vertice<>(10);
-        // Vertice<Integer> v13 = new Vertice<>(10);
-
-        // System.out.println(v10.equals(v13));
-
+        
     }
 
 }

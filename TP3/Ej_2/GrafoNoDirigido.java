@@ -16,7 +16,7 @@ public class GrafoNoDirigido<T> extends GrafoDirigido<T> {
 
     @Override
     public int cantidadVertices(){
-        return super.cantidadVertices() / 2;
+        return super.cantidadVertices();
     }
 
 }

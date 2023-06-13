@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static <T> void main(String[] args){
-        Tree tree = new Tree(28);
+        /*Tree tree = new Tree(28);
         tree.insert(12);
         tree.insert(5);
         tree.insert(77);
@@ -20,8 +20,19 @@ public class Main {
         tree.insert(-6);
         tree.insert(-5);
         tree.insert(7);
-        tree.insert(100);
+        tree.insert(100); */
        
+        Tree tree = new Tree(10);
+        tree.insert(8);
+        tree.insert(13);
+        tree.insert(4);
+        tree.insert(9);
+        tree.insert(12);
+        tree.insert(20);
+        tree.insert(2);
+        tree.insert(11);
+
+        System.out.println(tree.isValidTree(3));
         /* 
         Tree<String> tree = new Tree<>();
         tree.insert("casa");
@@ -38,22 +49,22 @@ public class Main {
         tree.insert("barro");
         tree.insert("nariz"); */
 
-        System.out.println("-----------Pos Order----------------");
-        System.out.print("[ ");
-        tree.printPosOrder();
-        System.out.println(" ]");
+        // System.out.println("-----------Pos Order----------------");
+        // System.out.print("[ ");
+        // tree.printPosOrder();
+        // System.out.println(" ]");
 
-        System.out.println("-----------Pre Order----------------");
-        System.out.print("[ ");
-        tree.printPreOrder();
-        System.out.println(" ]");
+        // System.out.println("-----------Pre Order----------------");
+        // System.out.print("[ ");
+        // tree.printPreOrder();
+        // System.out.println(" ]");
 
         System.out.println("-----------In Order----------------");
         System.out.print("[ ");
         tree.printInOrder();
         System.out.println(" ]");
 
-        System.out.println("---------------Tree Info----------------");        
+        /* System.out.println("---------------Tree Info----------------");        
         System.out.println("Suma de todas las hojas (tree de trees): " + tree.leafPlus());
         System.out.println("Tree mas derecho: " + tree.treeMostRight());
         System.out.println("Tree mas izquierdo: " + tree.treeMostLeft());        
@@ -69,8 +80,8 @@ public class Main {
         System.out.println("Elementos en el nivel 5: " + tree.getElemAtLevel(5));
         System.out.println("Elementos en el nivel 6: " + tree.getElemAtLevel(6));
         System.out.println("Elementos en el nivel 7: " + tree.getElemAtLevel(7));
-        System.out.println();
-        try (Scanner scanner = new Scanner(System.in)){
+        System.out.println(); */
+        /* try (Scanner scanner = new Scanner(System.in)){
             System.out.println(tree.toString());
             System.out.print("Ingrese el valor minimo: ");
             Integer data = scanner.nextInt();
@@ -83,7 +94,7 @@ public class Main {
             else
                 System.out.println("No se pudo eliminar el elemento.");
         
-           System.out.println(tree.toString());
+           System.out.println(tree.toString()); */
 
            /*  System.out.println();
             System.out.println("Elementos en el nivel 0: " + tree.getElemAtLevel(0));
@@ -96,7 +107,7 @@ public class Main {
             System.out.println("Elementos en el nivel 7: " + tree.getElemAtLevel(7));
             System.out.println(); */
             
-        }
+       // }
 
         
 

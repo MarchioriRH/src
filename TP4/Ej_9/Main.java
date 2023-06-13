@@ -4,7 +4,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        OrderBoard panel = new OrderBoard(2, 2 );
+        OrderBoard panel = new OrderBoard(0, 2 );
+        panel.printSolution();
+        
+        panel.solve();
         
         panel.printSolution();
 

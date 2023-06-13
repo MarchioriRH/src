@@ -22,7 +22,7 @@ public class Dijkstra <T> {
                 vertexMinDistance = i;                            // el vertice a devolver se vuelve el actual
             }
         }        
-        return vertexMinDistance;
+        return vertexMinDistance + 1;
     }
 
     // Metodo privado para obtener un vertice del grafo
@@ -49,12 +49,14 @@ public class Dijkstra <T> {
        
         while (isVisited.size() < grafo.cantidadVertices()) { // loop principal
             
-            int actualVertex = getMinDistVertex(distances, isVisited) + 1;      // Se obtiene el vertice mas cercano al actual
+            int actualVertex = getMinDistVertex(distances, isVisited);      // Se obtiene el vertice mas cercano al actual
             isVisited.add(actualVertex-1);                                      // Se agrega a la lista de vistados
             
             Vertice<Integer> aux = getVertex(grafo, actualVertex);              
-            Iterator<Arco<Integer>> archs = grafo.obtenerArcos(aux);             // Se obtienen los vertices adyacentes
-            while (archs.hasNext()) {
+            Iterator<Arco<Integer>> archs = grafo.obtenerArcos(aux);   // Se obtienen los vertices adyacentes
+            if (archs == null)
+                System.out.println();          
+            while (archs != null && archs.hasNext()) {
                 Arco<Integer> arch = archs.next();
                 Vertice<Integer> destinyVertex = arch.getVerticeDestino();
                 int archWeight = arch.getEtiqueta();

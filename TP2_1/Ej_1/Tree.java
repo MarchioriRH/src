@@ -296,12 +296,28 @@ public class Tree {
 	}
 
 
+	
+	public boolean isValidTree(int k) {		
+		return isValidTree(this, k);
+	}
+	
+	
+	private boolean isValidTree( Tree t,  int k) {
+		if (t == null )
+		return true; 
+		
+		if (t.right != null && t.getValue() - t.right.getValue() > k || (t.left != null  && t.getValue() - t.left.getValue() > k))
+		return false;		
+		
+		return (isValidTree(t.right,  k) == false || isValidTree(t.left,  k) == false) ? false : true;
+		
+	}
+	
 	public List<Integer> getLongestBranch() {
-        List<Integer> branch = new ArrayList<>();
-        branch = findLongestBranch(this);
-        return branch;
-    }
- 
+		List<Integer> branch = new ArrayList<>();
+		branch = findLongestBranch(this);
+		return branch;
+	}
 
 	private List<Integer> findLongestBranch(Tree t) {
 		if (t == null) {
