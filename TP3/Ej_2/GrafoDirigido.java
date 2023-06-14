@@ -101,6 +101,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		return res; */
 	}
 
+	// DFS
 	public void DFS(){
 		for (Map.Entry<Vertice<T>, Set<Arco<T>>> e : vertices.entrySet()){
 			e.getKey().setColor("blanco");
@@ -131,7 +132,38 @@ public class GrafoDirigido<T> implements Grafo<T> {
 		v.setEndTime(time);
 	}
 
-	
+	public boolean hamiltonRoad() {
+		ArrayList<Integer> road= new ArrayList<>();
+		ArrayList<Integer> visited = new ArrayList<>();
+		return hamiltonRoadBack(visited, road);
+	}
+
+	private boolean hamiltonRoadBack(ArrayList<Integer> visited, ArrayList<Integer> road) {
+		if (road.size() == this.cantidadVertices()) {
+			System.out.println(road.toString());
+			return true;
+		}
+		else {
+			Iterator<Vertice<T>> itVertices = this.obtenerVertices();
+			while (itVertices.hasNext()) {					
+				Vertice<T> vertex = itVertices.next();
+				
+				Iterator<Vertice<T>> adyacent = this.obtenerAdyacentes(vertex);
+				while (adyacent.hasNext()) {
+					Vertice<T> ady = adyacent.next();
+					if (!visited.contains((Integer) ady.getKey())) {
+						visited.add((Integer) ady.getKey());						
+						road.add((Integer) ady.getKey());
+						if (hamiltonRoadBack(visited, road))
+							return true;
+						road.remove((Integer) ady.getKey());
+						visited.remove((Integer) ady.getKey());
+					}
+				}
+			}			
+		}
+		return false;
+	}
 
 	@Override
 	public Iterator<Vertice<T>> obtenerVertices() {

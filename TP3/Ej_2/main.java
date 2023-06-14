@@ -12,7 +12,7 @@ public class main <T extends Comparable<? super T>> {
     }
 
     public static <T> void main (String[] args){
-        Grafo<Integer> g1 = new GrafoDirigido<>();
+        Grafo<Integer> g1 = new GrafoNoDirigido<>();
 
         Vertice<Integer> v1 = new Vertice<>(1);
         Vertice<Integer> v2 = new Vertice<>(2);
@@ -29,21 +29,22 @@ public class main <T extends Comparable<? super T>> {
 
         g1.agregarArco(v1, v3, 3);
         
-        g1.agregarArco(v1, v5, 23);
-        g1.agregarArco(v1, v4, 23);
-        g1.agregarArco(v1, v2, 21);
+       // g1.agregarArco(v1, v5, 23);
+       // g1.agregarArco(v1, v4, 23);
+        //g1.agregarArco(v1, v2, 21);
         
-        g1.agregarArco(v4, v5, 4);
         g1.agregarArco(v2, v4, 21);
+        g1.agregarArco(v3, v1, 2);
         g1.agregarArco(v3, v2, 12);
-        g1.agregarArco(v5, v2, 2);
+        g1.agregarArco(v4, v5, 4);
+        g1.agregarArco(v5, v3, 2);
 
         //System.out.println(g1.toString());
 
-        g1.DFS();
+        // g1.DFS();
 
-        
-        System.out.println(g1.toString());
+        System.out.println(g1.hamiltonRoad());
+        //System.out.println(g1.toString());
         
         
         /* Arco<Integer> res = g1.obtenerArco(v1,v3);

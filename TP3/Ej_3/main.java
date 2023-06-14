@@ -9,7 +9,7 @@ public class main <T extends Comparable<? super T>> {
     private Map<Integer, Integer> state = new HashMap<>();
 	private Map<Integer, int[]> tiempos = new HashMap<>();;
 
-    public void DFS(Grafo<?> g){
+    public void DFS(Grafo<T> g){
 		int time = 0;
 		state.clear();
         Iterator<Integer> itVertices = g.obtenerVertices();

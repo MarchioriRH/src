@@ -116,20 +116,24 @@ public class OrderBoard {
 
     private boolean isValidEstado(ArrayList<int[][]> estado) {
         int cont = 0;
+        boolean notSame = true;
+
         for (int[][] mat : estado) {
             
             cont++;
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
                     if (mat[i][j] != board[i][j]) {
-                        System.out.println("Boards counter "+cont);
-                        return true;
-                    }
+                        //System.out.println("Boards counter "+cont);
+                        notSame = false;
+                    } else  
+                        notSame = true;
                 }
             }
+
         }
-        System.out.println("Boards counter "+cont);
-        return false;
+        //System.out.println("Boards counter "+cont);
+        return notSame == true ? true : false;
     }
 
     public void solve() {
@@ -159,7 +163,7 @@ public class OrderBoard {
         } else {
                 iteraciones++;
                 if (estado.isEmpty() || isValidEstado(estado)) {   
-                   System.out.println("pasos "+pasos); 
+                  // System.out.println("pasos "+pasos); 
                     //Coordinate coord = new Coordinate(row, col);
                     if (estado.isEmpty()) {
                         int[][] copy = new int[SIZE][SIZE];
@@ -168,7 +172,7 @@ public class OrderBoard {
                     }
                     if (iteraciones == 30) 
                          System.out.println("l");;                
-                    for (Coordinate coord : getValidPositions(row, col, pasos)) {                        
+                    for (Coordinate coord : getValidPositions(row, col, pasos)) {           
                         
                         
                         int[][] copy = new int [SIZE][SIZE];                       
