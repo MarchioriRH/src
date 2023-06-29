@@ -126,14 +126,14 @@ public class OrderBoard {
                     if (mat[i][j] != board[i][j]) {
                         //System.out.println("Boards counter "+cont);
                         notSame = false;
-                    } else  
-                        notSame = true;
+                     }
                 }
             }
-
+            if (!notSame) {
+                return false;
+            }
         }
-        //System.out.println("Boards counter "+cont);
-        return notSame == true ? true : false;
+        return true;
     }
 
     public void solve() {

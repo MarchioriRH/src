@@ -19,7 +19,7 @@ public class main <T extends Comparable<? super T>> {
         Vertice<Integer> v3 = new Vertice<>(3);
         Vertice<Integer> v4 = new Vertice<>(4);
         Vertice<Integer> v5 = new Vertice<>(5);
-        Vertice<Integer> v13 = new Vertice<>(13);
+       // Vertice<Integer> v13 = new Vertice<>(13);
 
         g1.agregarVertice(v1);
         g1.agregarVertice(v2);

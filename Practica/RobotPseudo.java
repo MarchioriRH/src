@@ -21,10 +21,10 @@ public class RobotPseudo {
             ArrayList<Position> currentPositions = e.getRobotValidMoves(actualPos); // Devuelve los posible movimientos desde la posicion actual
             for (Position p : currePositions) {
                 currentWay.add(p);
-                int oldPos = actualPos;
-                actualPos = p;
-                robotBack(e, currentWay, actualPos);
-                actualPos = oldPos;
+                // int oldPos = actualPos;
+                // actualPos = p;
+                robotBack(e, currentWay, p);
+            //   actualPos = oldPos;
                 currentWay.remove(p);
             }
         }

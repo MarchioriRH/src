@@ -1,8 +1,11 @@
 package TP4.Ej_4;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class DisjointAddition {
+    private ArrayList<ArrayList<Integer>> res = new ArrayList<>();
+
 
     public ArrayList<ArrayList<Integer>> findSubsets(int[] nums) {
         ArrayList<ArrayList<Integer>> subsets = new ArrayList<>();
@@ -47,6 +50,40 @@ public class DisjointAddition {
                 return false;
         }
         return true;
+    }
+
+    public ArrayList<ArrayList<Integer>> subsetsAddition(Stack<Integer> nums) {
+        ArrayList<Integer> subSet1 = new ArrayList<>();
+        ArrayList<Integer> subSet2 = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> bothSubsets = new ArrayList<>();
+        bothSubsets.add(subSet1);
+        bothSubsets.add(subSet2);
+        res = new ArrayList<>(bothSubsets);
+        backtrackB(nums, bothSubsets);        
+        return res;
+    }
+
+    private boolean backtrackB(Stack<Integer> nums, ArrayList<ArrayList<Integer>> bothSubsets) {
+        if (nums.isEmpty()) {
+            if (checkDisjoints(bothSubsets)) {
+                res = new ArrayList<>(bothSubsets);
+                return true;
+            }
+        } else {
+            int x = nums.pop();
+            for (ArrayList<Integer> subSet : bothSubsets) {
+                subSet.add(x);
+                if (backtrackB(nums, bothSubsets))
+                    return true;
+                subSet.remove(Integer.valueOf(x));
+            }
+            nums.push(x);
+        }
+        return false;
+    }
+
+    private boolean checkDisjoints(ArrayList<ArrayList<Integer>> subSets) {
+        return (areDisjoints(subSets.get(0), subSets.get(1)) && arrayAddition(subSets.get(0)) == arrayAddition(subSets.get(1)));
     }
 }
 

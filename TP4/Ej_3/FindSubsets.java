@@ -3,11 +3,13 @@ package TP4.Ej_3;
 import java.util.ArrayList;
 
 public class FindSubsets {
+    private ArrayList<ArrayList<Integer>> subsets = new ArrayList<>();
     
 
     public ArrayList<ArrayList<Integer>> findSubsets(int[] nums, int targetSum) {
-        ArrayList<ArrayList<Integer>> subsets = new ArrayList<>();
-        backtrack(nums, subsets, new ArrayList<>(), targetSum, 0);
+        //ArrayList<ArrayList<Integer>> subsets = new ArrayList<>();
+        //backtrack(nums, subsets, new ArrayList<>(), targetSum, 0);
+        backtrack(nums, targetSum, new ArrayList<>(), 0);
         return subsets;
     }
 
@@ -22,6 +24,31 @@ public class FindSubsets {
                     backtrack(nums, subsets, currentSubset, targetSum - nums[i], i + 1);
                     currentSubset.remove(currentSubset.size() - 1);
                 }
+            }
+        }
+    }
+
+    private boolean isSolution(ArrayList<Integer> currentSolution, int target) {
+        for (int i : currentSolution)
+            target -= i;
+        return target == 0;
+    }
+
+    private void backtrack(int[] nums, int target, ArrayList<Integer> currentSolution, int index) {      
+        if (isSolution(currentSolution, target)) {
+            if (!subsets.contains(currentSolution))
+                subsets.add(new ArrayList<>(currentSolution));
+        } else {
+            if (index < nums.length) {
+                int x = nums[index];
+                backtrack(nums, target, currentSolution, index + 1);
+                nums[index] = x;
+
+                x = nums[index];
+                currentSolution.add(x);
+                backtrack(nums, target, currentSolution, index + 1); 
+                currentSolution.remove(Integer.valueOf(x));
+                nums[index] = x;
             }
         }
     }

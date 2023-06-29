@@ -32,6 +32,13 @@ public class FractionalBackpack {
         for (int i = 0; i < this.nrElem; i++) {
             this.maxViWi[i] = this.values[i] / this.weights[i]; // Se divide el valor por el peso de cada uno y se guada
         }
+        System.out.print("MaxViWi: [ ");
+        for (int i = 0; i < 5; i++) {
+            if (i == maxViWi.length - 1)
+                System.out.println(maxViWi[i] + " ]");
+            else
+                System.out.print(maxViWi[i]+" - ");
+        }
     }
 
     // Metodo de seleccion, se devuelve el indice en el arreglo de pesos del elemento de mayor coeficiente del array ViWi

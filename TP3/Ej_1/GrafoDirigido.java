@@ -126,10 +126,10 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	}
 
 	private int DFS_Visit(Integer origen, int time){
-		time += 1;		
-		int[] times = new int[2];
-		times[0] = time;
-		tiempos.put(origen, times);
+		// time += 1;		
+		// int[] times = new int[2];
+		// times[0] = time;
+		// tiempos.put(origen, times);
 		state.put(origen, 1); // state: 0 = no visitado, 1 = visitado y 2 = finalizado
 
 		Set<Arco<T>> adyacentes = grafo.get(origen);
@@ -143,9 +143,9 @@ public class GrafoDirigido<T> implements Grafo<T> {
 					this.isCyclic = true;
 			}
 		}
-		time += 1;
-		times[1] = time;
-		tiempos.put(origen, times);
+		// time += 1;
+		// times[1] = time;
+		// tiempos.put(origen, times);
 		state.put(origen, 2);
 		return time;
 	}

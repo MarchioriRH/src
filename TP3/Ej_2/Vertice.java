@@ -12,6 +12,7 @@ public class Vertice<T> {
         this.endTime = 0;
     }
     
+      
     public Vertice(T key, String color, int foundTime){
         this.key = key;
         this.color = color;
@@ -66,7 +67,7 @@ public class Vertice<T> {
 
     @Override
     public String toString(){
-        return "Key: " + this.key.toString() + ", color: " + this.getColor() + 
-                ", TimeFound: " + getFoundTime() + ", TimeEnd: " + this.getEndTime();
+        return "Key: " + this.key.toString() /* + ", color: " + this.getColor() + 
+                ", TimeFound: " + getFoundTime() + ", TimeEnd: " + this.getEndTime() */;
     }
 }

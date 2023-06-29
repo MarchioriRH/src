@@ -3,7 +3,7 @@ package TP4.Ej_5;
 import java.util.Arrays;
 
 public class ProcessorDistribution {
-    private int minTime; // Variable para almacenar el tiempo total mínimo
+    private int minTime; // Atributo para almacenar el tiempo total mínimo
     private int[] bestDistribution; // Almacenar la mejor distribución encontrada
 
     public int[] distributeProcessors(int m, int[] executionTimes) {

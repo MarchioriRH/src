@@ -2,10 +2,10 @@ package TP5.Ej_2;
 
 public class Main {
     public static void main(String[] args) {
-        FractionalBackpack bpk = new FractionalBackpack(5, 50);
+        FractionalBackpack bpk = new FractionalBackpack(5, 100);
 
-        int[] values = {128, 240, 380, 200, 250};
-        int[] weight = {55, 100, 35, 41, 122};
+        int[] weight = {10, 20, 30, 40, 50};
+        int[] values = {20, 30, 66, 40, 60};
         bpk.addData(values, weight);
         double[] res = bpk.solve();
        

@@ -16,6 +16,12 @@ public class Arco<T> {
 		this.verticeDestino = verticeDestino;
 		this.etiqueta = etiqueta;
 	}
+	
+	public Arco(T verticeOrigen, T verticeDestino, T etiqueta) {
+		this.verticeOrigen = new Vertice<T>(verticeOrigen);
+		this.verticeDestino = new Vertice<T>(verticeDestino);
+		this.etiqueta = etiqueta;
+	}
 
 	public Arco(){
 		this.verticeDestino = null;
